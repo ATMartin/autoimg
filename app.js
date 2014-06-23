@@ -27,10 +27,22 @@ app.get('/solid/:wd/:ht', function(req, res) {
 });
 
 app.get('/clipped/:wd/:ht', function(req, res) {
+	
+	var wd = parseInt(req.params.wd),
+			ht = parseInt(req.params.ht);
 
-	//var img = new Canvas.Image();
-	//img.src = 'src';
-	//img.onload = function() { context.drawImage(img, 0, 0); };
+	var canvas = new Canvas(wd, ht),
+			context = canvas.getContext('2d'),
+			img = new Canvas.Image();
+	
+	img.src = 'sandbox/pic.gif';
+	console.log(img.inspect());
+	img.onload = function() {
+		context.drawImage(img, 0, 0);
+		var stream = canvas.pngStream();
+		res.type("png");
+		stream.pipe(res);
+	};
 
 });
 
