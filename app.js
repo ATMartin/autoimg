@@ -34,17 +34,21 @@ app.get('/clipped/:wd/:ht', function(req, res) {
 
 	var canvas = new Canvas(wd, ht),
 			context = canvas.getContext('2d'),
-			img = new Canvas.Image;
+			img = Canvas.Image;
+			img.onload = function() { console.log('onload'); };
+  
+	var data = fs.readFileSync(__dirname + '/pic.gif');
+	console.log('data got');
+	img.src = data;
+	console.log('src set');
+	context.drawImage(img, 0, 0);
+	console.log('drawn');
 	
+	var stream = canvas.pngStream();
+	res.type("png");
+	stream.pipe(res);
 	
-	img.onload = function() {
-		context.drawImage(img, 0, 0);
-		var stream = canvas.pngStream();
-		res.type("png");
-		stream.pipe(res);
-	};
 
-	img.src = "./pic.gif";
 });
 
 //HELPER METHODS
