@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var Canvas = require('canvas');
 var app = express();
@@ -33,10 +34,9 @@ app.get('/clipped/:wd/:ht', function(req, res) {
 
 	var canvas = new Canvas(wd, ht),
 			context = canvas.getContext('2d'),
-			img = new Canvas.Image();
+			img = new Canvas.Image;
 	
-	img.src = 'sandbox/pic.gif';
-	console.log(img.inspect());
+	
 	img.onload = function() {
 		context.drawImage(img, 0, 0);
 		var stream = canvas.pngStream();
@@ -44,6 +44,7 @@ app.get('/clipped/:wd/:ht', function(req, res) {
 		stream.pipe(res);
 	};
 
+	img.src = "./pic.gif";
 });
 
 //HELPER METHODS
