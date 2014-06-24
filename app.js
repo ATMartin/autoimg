@@ -4,7 +4,7 @@ var Canvas = require('canvas');
 var app = express();
 
 //ROUTES
-app.get('/solid/:wd/:ht', function(req, res) {
+app.get('/:wd/:ht', function(req, res) {
 
 	var wd = parseInt(req.params.wd),
 			ht = parseInt(req.params.ht);
@@ -25,30 +25,6 @@ app.get('/solid/:wd/:ht', function(req, res) {
 
 	res.type("png");
 	stream.pipe(res);
-});
-
-app.get('/clipped/:wd/:ht', function(req, res) {
-	
-	var wd = parseInt(req.params.wd),
-			ht = parseInt(req.params.ht);
-
-	var canvas = new Canvas(wd, ht),
-			context = canvas.getContext('2d'),
-			img = Canvas.Image;
-			img.onload = function() { console.log('onload'); };
-  
-	var data = fs.readFileSync(__dirname + '/pic.gif');
-	console.log('data got');
-	img.src = data;
-	console.log('src set');
-	context.drawImage(img, 0, 0);
-	console.log('drawn');
-	
-	var stream = canvas.pngStream();
-	res.type("png");
-	stream.pipe(res);
-	
-
 });
 
 //HELPER METHODS
